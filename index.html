@@ -160,6 +160,9 @@
                         <!-- Options generated dynamically -->
                     </div>
 
+                    <!-- Instant Feedback Box -->
+                    <div id="instantFeedbackBox" class="hidden mb-8 p-5 rounded-2xl border transition-all"></div>
+
                     <!-- Question Navigation Controls -->
                     <div class="flex items-center justify-between pt-6 border-t border-slate-800">
                         <button id="btnPrev" onclick="navigateQuestion(-1)"
@@ -2040,35 +2043,112 @@
             const container = document.getElementById('optionsContainer');
             container.innerHTML = '';
 
+            const feedbackBox = document.getElementById('instantFeedbackBox');
             const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+            const userChoice = userAnswers[index];
+            const isAnswered = userChoice !== null;
 
             q.options.forEach((optText, optIdx) => {
-                const isSelected = userAnswers[index] === optIdx;
+                const isSelected = userChoice === optIdx;
+                const isCorrect = optIdx === q.correctAnswer;
 
                 const optionCard = document.createElement('div');
-                optionCard.className = `custom-radio group cursor-pointer transition-all duration-200 border rounded-xl p-4 flex items-start gap-3.5 ${
-                    isSelected 
-                    ? 'border-green-500 bg-green-950/20 shadow-md ring-1 ring-green-500/50' 
-                    : 'border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 hover:border-slate-700'
-                }`;
 
+                let cardStyle =
+                    "custom-radio group cursor-pointer transition-all duration-200 border rounded-xl p-4 flex items-start gap-3.5 ";
+                let badgeStyle =
+                    "w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 border transition-all ";
+                let badgeText = optionLetters[optIdx];
+
+                if (isAnswered) {
+                    if (isSelected && isCorrect) {
+                        cardStyle += "border-green-500 bg-green-950/40 shadow-md ring-1 ring-green-500/50";
+                        badgeStyle += "bg-green-600 text-white border-green-500";
+                    } else if (isSelected && !isCorrect) {
+                        cardStyle += "border-rose-500 bg-rose-950/40 shadow-md ring-1 ring-rose-500/50";
+                        badgeStyle += "bg-rose-600 text-white border-rose-500";
+                    } else if (!isSelected && isCorrect) {
+                        cardStyle += "border-green-600/80 bg-green-950/20 ring-1 ring-green-600/30";
+                        badgeStyle += "bg-green-800/80 text-green-200 border-green-600";
+                    } else {
+                        cardStyle += "border-slate-800 bg-slate-900/30 opacity-50 hover:opacity-80";
+                        badgeStyle += "bg-slate-800 text-slate-400 border-slate-700";
+                    }
+                } else {
+                    if (isSelected) {
+                        cardStyle += "border-green-500 bg-green-950/20 shadow-md ring-1 ring-green-500/50";
+                        badgeStyle += "bg-green-600 text-white border-green-500 shadow-sm";
+                    } else {
+                        cardStyle +=
+                            "border-slate-800 bg-slate-900/60 hover:bg-slate-800/80 hover:border-slate-700";
+                        badgeStyle +=
+                            "bg-slate-800 text-slate-300 border-slate-700 group-hover:border-slate-600";
+                    }
+                }
+
+                optionCard.className = cardStyle;
                 optionCard.onclick = () => selectOption(index, optIdx);
 
+                let extraTag = '';
+                if (isAnswered) {
+                    if (isSelected && isCorrect) {
+                        extraTag =
+                            `<span class="ml-auto text-xs font-bold text-green-400 bg-green-900/50 border border-green-700 px-2 py-0.5 rounded-md shrink-0">✓ Sua resposta (Correta)</span>`;
+                    } else if (isSelected && !isCorrect) {
+                        extraTag =
+                            `<span class="ml-auto text-xs font-bold text-rose-400 bg-rose-900/50 border border-rose-700 px-2 py-0.5 rounded-md shrink-0">✗ Sua resposta (Incorreta)</span>`;
+                    } else if (!isSelected && isCorrect) {
+                        extraTag =
+                            `<span class="ml-auto text-xs font-bold text-emerald-400 bg-emerald-900/40 border border-emerald-700 px-2 py-0.5 rounded-md shrink-0">Gabarito Correto</span>`;
+                    }
+                }
+
                 optionCard.innerHTML = `
-                    <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center shrink-0 border transition-all ${
-                        isSelected 
-                        ? 'bg-green-600 text-white border-green-500 shadow-sm' 
-                        : 'bg-slate-800 text-slate-300 border-slate-700 group-hover:border-slate-600'
-                    }">
-                        ${optionLetters[optIdx]}
+                    <div class="${badgeStyle}">
+                        ${badgeText}
                     </div>
-                    <div class="text-sm text-slate-200 leading-relaxed font-normal pt-0.5 select-none">
+                    <div class="text-sm text-slate-200 leading-relaxed font-normal pt-0.5 select-none flex-grow">
                         ${optText}
                     </div>
+                    ${extraTag}
                 `;
 
                 container.appendChild(optionCard);
             });
+
+            // Instant Feedback Box Render
+            if (isAnswered) {
+                const userWasRight = userChoice === q.correctAnswer;
+                feedbackBox.classList.remove('hidden');
+                if (userWasRight) {
+                    feedbackBox.className =
+                        "mb-8 p-5 rounded-2xl border bg-emerald-950/40 border-emerald-800/80 space-y-3";
+                    feedbackBox.innerHTML = `
+                        <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Resposta Correta!</span>
+                        </div>
+                        <div class="text-xs text-slate-300 leading-relaxed border-t border-emerald-900/60 pt-2.5">
+                            <strong class="text-emerald-300">Gabarito: Alternativa ${optionLetters[q.correctAnswer]}</strong>
+                            <p class="mt-1 text-slate-300"><strong>Explicação Técnica:</strong> ${q.explanation}</p>
+                        </div>
+                    `;
+                } else {
+                    feedbackBox.className = "mb-8 p-5 rounded-2xl border bg-rose-950/40 border-rose-800/80 space-y-3";
+                    feedbackBox.innerHTML = `
+                        <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Resposta Incorreta (Sua escolha: ${optionLetters[userChoice]})</span>
+                        </div>
+                        <div class="text-xs text-slate-300 leading-relaxed border-t border-rose-900/60 pt-2.5">
+                            <strong class="text-emerald-400">Gabarito Correto: Alternativa ${optionLetters[q.correctAnswer]}</strong>
+                            <p class="mt-1 text-slate-300"><strong>Explicação / Onde você errou:</strong> ${q.explanation}</p>
+                        </div>
+                    `;
+                }
+            } else {
+                feedbackBox.classList.add('hidden');
+            }
 
             // Button States
             document.getElementById('btnPrev').disabled = (index === 0);
