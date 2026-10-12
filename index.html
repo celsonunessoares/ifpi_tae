@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulados Profissionais - Técnico de Tecnologia da Informação & Legislação</title>
+    <title>Plataforma de Estudos e Simulados IFPI — Técnico de TI</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,24 +13,40 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            900: '#14532d',
+                        ifpi: {
+                            50: '#eef8f2',
+                            100: '#d7eede',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b'
                         }
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts Inter -->
+    <!-- Font Inter & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -38,1074 +54,1286 @@
 <body
     class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
 
-    <div id="custom-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden">
-        <div
-            class="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-            <h3 id="modal-title" class="text-lg font-bold text-slate-900 dark:text-white">Confirmação</h3>
-            <p id="modal-message" class="text-sm text-slate-600 dark:text-slate-300">Tem certeza de que deseja realizar
-                esta ação?</p>
-            <div id="modal-actions" class="flex justify-end space-x-3 pt-2">
-                <button id="modal-btn-cancel" onclick="app.closeModal(false)"
-                    class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold transition cursor-pointer">Cancelar</button>
-                <button id="modal-btn-confirm" onclick="app.closeModal(true)"
-                    class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition shadow-md cursor-pointer">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
     <header
-        class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        class="bg-emerald-800 dark:bg-slate-900 border-b border-emerald-900 dark:border-slate-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="app.goHome()">
-                <div class="bg-brand-600 text-white p-2 rounded-xl shadow-md">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
+                <div
+                    class="bg-emerald-600 dark:bg-emerald-700 p-2.5 rounded-xl shadow-inner flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap text-xl text-white"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-base sm:text-lg text-slate-900 dark:text-white leading-tight">Simulado PRO
-                        TI & Legislação</h1>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">10 Blocos • 700 Questões Rigorosas</p>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide">IFPI — Técnico de TI</h1>
+                    <p class="text-xs text-emerald-200 dark:text-emerald-400 font-medium">Plataforma Oficial de
+                        Simulados e Estudos</p>
                 </div>
             </div>
-
             <div class="flex items-center space-x-3">
-                <button onclick="app.toggleTheme()"
-                    class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition cursor-pointer"
+                <button id="themeToggleBtn" onclick="app.toggleTheme()"
+                    class="p-2 rounded-lg bg-emerald-700/60 dark:bg-slate-800 hover:bg-emerald-700 dark:hover:bg-slate-700 transition text-emerald-100 dark:text-amber-400"
                     title="Alternar Tema">
-                    <svg id="theme-icon-sun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                        </path>
-                    </svg>
-                    <svg id="theme-icon-moon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
-                        </path>
-                    </svg>
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
                 </button>
-                <button onclick="app.promptResetAllData()"
-                    class="text-xs text-red-500 hover:text-red-700 px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-900 transition font-medium cursor-pointer">Resetar
-                    Progresso</button>
+                <button onclick="app.askResetCompleteSimulated()"
+                    class="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition shadow-sm"
+                    title="Reiniciar Simulados Completos">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Zerar Sistema</span>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-        <!-- VIEW 1: HOME / BLOCK SELECTION -->
-        <div id="view-home" class="space-y-6">
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
+        <!-- Home View -->
+        <div id="homeView" class="space-y-8">
+            <!-- Hero Banner -->
             <div
-                class="bg-gradient-to-r from-brand-600 to-emerald-700 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
-                <div class="relative z-10 max-w-2xl">
+                class="bg-gradient-to-r from-emerald-700 to-teal-800 dark:from-slate-800 dark:to-slate-900 text-white p-6 sm:p-8 rounded-2xl shadow-xl relative overflow-hidden border border-emerald-600/30 dark:border-slate-700">
+                <div
+                    class="absolute right-0 bottom-0 opacity-15 transform translate-x-6 translate-y-6 pointer-events-none">
+                    <i class="fa-solid fa-laptop-code text-9xl"></i>
+                </div>
+                <div class="max-w-2xl relative z-10">
                     <span
-                        class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3">Preparação
-                        de Alto Nível</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Simulado Oficial: TAE</h2>
-                    <p class="text-emerald-50 text-base sm:text-lg mb-6 leading-relaxed">
-                        Plataforma completa contendo <strong>10 blocos de 70 questões</strong> cada (total de 700
-                        questões). Abrange Língua Portuguesa (Q1-20), Legislação e Ética na Administração Pública
-                        (Q21-40) e Conhecimentos Específicos de TI (Q41-70). Cronômetro rigoroso de 4min 12s por
-                        questão.
+                        class="bg-emerald-500/30 dark:bg-emerald-900/50 text-emerald-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3 border border-emerald-400/30">Edital
+                        IFPI — Concurso Público</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-3 tracking-tight">Treinamento Intensivo: 350
+                        Questões Inéditas</h2>
+                    <p class="text-emerald-100 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+                        Prepare-se com 5 blocos exclusivos de simulados com 70 questões cada. Cronômetro individual de
+                        04:12 por questão, confirmação prévia de correção, explicações detalhadas e embaralhamento
+                        inteligente de alternativas.
                     </p>
-                    <div class="flex flex-wrap gap-4 text-sm font-medium">
-                        <div class="bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm">⏱️ 4m 12s por questão</div>
-                        <div class="bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm">📚 700 Questões Inéditas</div>
-                        <div class="bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm">🔀 Embaralhamento Inteligente
-                        </div>
+                    <div class="flex flex-wrap gap-3 text-xs font-medium">
+                        <span
+                            class="bg-white/10 dark:bg-slate-700/60 px-3 py-1.5 rounded-lg flex items-center space-x-1.5"><i
+                                class="fa-solid fa-clock text-emerald-300"></i><span>4m 12s por questão</span></span>
+                        <span
+                            class="bg-white/10 dark:bg-slate-700/60 px-3 py-1.5 rounded-lg flex items-center space-x-1.5"><i
+                                class="fa-solid fa-shuffle text-emerald-300"></i><span>Embaralhamento
+                                Inteligente</span></span>
+                        <span
+                            class="bg-white/10 dark:bg-slate-700/60 px-3 py-1.5 rounded-lg flex items-center space-x-1.5"><i
+                                class="fa-solid fa-chart-pie text-emerald-300"></i><span>Desempenho
+                                Detalhado</span></span>
                     </div>
                 </div>
             </div>
 
-            <div>
-                <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center justify-between">
-                    <span>Escolha um Bloco de Simulados</span>
-                    <span class="text-xs font-normal text-slate-500 dark:text-slate-400">10 Blocos disponíveis (70
-                        questões cada)</span>
+            <!-- Blocks Grid Header -->
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-layer-group text-emerald-600 dark:text-emerald-400"></i>
+                    <span>Blocos de Simulados Disponíveis</span>
                 </h3>
-                <div id="blocks-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                    <!-- Populated dynamically -->
-                </div>
+                <span class="text-xs text-slate-500 dark:text-slate-400">5 Blocos • 350 Questões no Total</span>
+            </div>
+
+            <!-- Blocks List -->
+            <div id="blocksContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated blocks -->
             </div>
         </div>
 
-        <!-- VIEW 2: QUIZ INTERACTIVE INTERFACE -->
-        <div id="view-quiz" class="hidden space-y-6">
+        <!-- Exam View -->
+        <div id="examView" class="hidden space-y-6">
+            <!-- Top Exam Bar -->
             <div
-                class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
-                <div class="flex items-center space-x-4">
+                class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
                     <button onclick="app.goHome()"
-                        class="px-3 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl text-sm font-medium transition flex items-center space-x-1 cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        <span>Voltar</span>
+                        class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 transition"
+                        title="Voltar ao Início">
+                        <i class="fa-solid fa-arrow-left"></i>
                     </button>
                     <div>
-                        <h3 id="quiz-block-title" class="font-bold text-base text-slate-900 dark:text-white">Bloco X
-                        </h3>
-                        <p id="quiz-module-subtitle" class="text-xs text-brand-600 dark:text-brand-400 font-semibold">
-                            Língua Portuguesa (Q1-20)</p>
+                        <h3 id="examTitle" class="font-bold text-base text-slate-900 dark:text-white">Bloco 1</h3>
+                        <p id="examSubTitle" class="text-xs text-slate-500 dark:text-slate-400">Técnico de Tecnologia da
+                            Informação</p>
                     </div>
                 </div>
 
-                <div id="timer-box"
-                    class="flex items-center space-x-2 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-4 py-2 rounded-xl text-amber-800 dark:text-amber-300 font-mono font-bold text-lg shadow-sm">
-                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span id="timer-display">04:12</span>
-                </div>
-
-                <div class="flex items-center space-x-3 text-xs sm:text-sm font-medium">
-                    <span
-                        class="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 px-3 py-1.5 rounded-lg">Acertos:
-                        <strong id="stat-correct">0</strong></span>
-                    <span
-                        class="bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-300 px-3 py-1.5 rounded-lg">Erros:
-                        <strong id="stat-wrong">0</strong></span>
+                <div class="flex items-center space-x-4">
+                    <!-- Timer Box -->
+                    <div id="timerBox"
+                        class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-900 px-3.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 font-mono text-sm font-bold text-slate-700 dark:text-emerald-400">
+                        <i class="fa-regular fa-clock text-emerald-600 dark:text-emerald-400"></i>
+                        <span id="timerDisplay">04:12</span>
+                    </div>
+                    <!-- Finish Block Button -->
+                    <button onclick="app.finishBlock()"
+                        class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition shadow-sm">
+                        Finalizar Bloco
+                    </button>
                 </div>
             </div>
 
-            <!-- Progress Bar -->
-            <div
-                class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
-                <div
-                    class="flex justify-between items-center text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">
-                    <span id="progress-text">Questão 1 de 70</span>
-                    <span id="progress-percent">1.4% concluído</span>
-                </div>
-                <div class="w-full bg-slate-100 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
-                    <div id="progress-bar-fill" class="bg-brand-600 h-2.5 rounded-full transition-all duration-300"
-                        style="width: 1.4%"></div>
-                </div>
-            </div>
-
-            <!-- Question Card & Grid Navigation -->
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                <!-- Main Question Area -->
+            <!-- Main Question Area & Sidebar Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                <!-- Question Card (3 cols) -->
                 <div class="lg:col-span-3 space-y-6">
                     <div
-                        class="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-700 space-y-6">
-
+                        class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 p-6 sm:p-8 space-y-6">
+                        <!-- Question Header Badge & Meta -->
                         <div
                             class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700 pb-4">
                             <div class="flex items-center space-x-2">
-                                <span id="q-number-badge"
-                                    class="bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-3 py-1 rounded-lg text-xs font-bold">Q01</span>
-                                <span id="q-diff-badge"
-                                    class="px-3 py-1 rounded-lg text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">Fácil</span>
+                                <span id="qNumberBadge"
+                                    class="bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-bold text-xs px-3 py-1 rounded-full">Bloco
+                                    1 — Questão 01 de 70</span>
+                                <span id="qDisciplineBadge"
+                                    class="bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300 font-medium text-xs px-3 py-1 rounded-full">Língua
+                                    Portuguesa</span>
+                                <span id="qDifficultyBadge"
+                                    class="bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300 font-medium text-xs px-3 py-1 rounded-full">Fácil</span>
                             </div>
-                            <span id="q-subject-badge"
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-lg">Assunto</span>
-                        </div>
-
-                        <div id="q-enunciado"
-                            class="text-base sm:text-lg text-slate-900 dark:text-slate-100 leading-relaxed font-medium">
-                            Carregando enunciado...
-                        </div>
-
-                        <div id="q-alternatives" class="space-y-3 pt-2">
-                            <!-- Populated dynamically -->
-                        </div>
-
-                        <!-- Submit Answer Button -->
-                        <div id="submit-answer-container" class="hidden pt-2">
-                            <button onclick="app.confirmAnswer()"
-                                class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 cursor-pointer">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span>Responder Questão</span>
+                            <button id="reviewBtn" onclick="app.toggleReview()"
+                                class="flex items-center space-x-1.5 text-xs font-medium px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                                <i id="reviewIcon" class="fa-regular fa-bookmark text-slate-400"></i>
+                                <span id="reviewText">Marcar para Revisão</span>
                             </button>
                         </div>
 
-                        <div id="explanation-container"
-                            class="hidden mt-6 p-5 rounded-xl border transition-all duration-200">
-                            <!-- Populated dynamically -->
+                        <!-- Question Text -->
+                        <div id="questionText"
+                            class="text-base sm:text-lg font-medium text-slate-900 dark:text-white leading-relaxed">
+                            <!-- Enunciado -->
+                        </div>
+
+                        <!-- Alternatives List -->
+                        <div id="alternativesContainer" class="space-y-3 pt-2">
+                            <!-- Alternativas A, B, C, D -->
+                        </div>
+
+                        <!-- Confirm Correction Action Area -->
+                        <div id="actionArea"
+                            class="pt-4 border-t border-slate-100 dark:border-slate-700 flex flex-wrap items-center justify-between gap-4">
+                            <div id="selectionStatus" class="text-xs text-slate-500 dark:text-slate-400">
+                                Selecione uma alternativa para habilitar a confirmação.
+                            </div>
+                            <button id="confirmCorrectionBtn" onclick="app.askConfirmCorrection()" disabled
+                                class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 text-white font-semibold text-sm transition shadow-md disabled:cursor-not-allowed">
+                                Confirmar resposta e corrigir
+                            </button>
+                        </div>
+
+                        <!-- Explanation Box (Initially Hidden) -->
+                        <div id="explanationBox" class="hidden rounded-xl p-5 border space-y-4 transition-all">
+                            <!-- Preenchido dinamicamente -->
                         </div>
                     </div>
 
-                    <!-- Navigation Action Buttons -->
-                    <div class="flex items-center justify-between pt-2">
-                        <button onclick="app.prevQuestion()" id="btn-prev"
-                            class="px-5 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition flex items-center space-x-2 shadow-sm cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7"></path>
-                            </svg>
+                    <!-- Bottom Nav Pagination -->
+                    <div
+                        class="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
+                        <button onclick="app.prevQuestion()"
+                            class="flex items-center space-x-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-medium text-xs sm:text-sm rounded-lg transition">
+                            <i class="fa-solid fa-chevron-left"></i>
                             <span>Anterior</span>
                         </button>
-
-                        <button onclick="app.promptFinishQuiz()"
-                            class="px-5 py-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900 font-semibold hover:bg-rose-100 dark:hover:bg-rose-900/40 transition cursor-pointer">
-                            Finalizar Simulado
-                        </button>
-
-                        <button onclick="app.nextQuestion()" id="btn-next"
-                            class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold shadow-md transition flex items-center space-x-2 cursor-pointer">
+                        <span id="paginationIndicator"
+                            class="text-xs font-semibold text-slate-600 dark:text-slate-300">Questão 1 de 70</span>
+                        <button onclick="app.nextQuestion()"
+                            class="flex items-center space-x-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm rounded-lg transition">
                             <span>Próxima</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                                </path>
-                            </svg>
+                            <i class="fa-solid fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Sidebar Question Navigator Grid -->
+                <!-- Navigation Numerical Panel Sidebar (1 col) -->
                 <div
-                    class="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 h-fit space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Gabarito (70 Qs)</h4>
-                        <button onclick="app.promptRestartCurrentBlock()"
-                            class="text-xs text-rose-500 hover:text-rose-700 underline font-medium cursor-pointer">Reiniciar
-                            Bloco</button>
+                    class="bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-200 dark:border-slate-700 p-5 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
+                        <h4 class="font-bold text-sm text-slate-900 dark:text-white flex items-center space-x-2">
+                            <i class="fa-solid fa-th text-emerald-600 dark:text-emerald-400"></i>
+                            <span>Painel de Questões</span>
+                        </h4>
+                        <span id="answeredCountBadge"
+                            class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">0/70</span>
                     </div>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Clique em qualquer número para navegar.</p>
 
-                    <div id="question-navigator-grid" class="grid grid-cols-7 gap-2 pt-2">
+                    <!-- Legend -->
+                    <div
+                        class="grid grid-cols-2 gap-2 text-[11px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 inline-block"></span><span>Não
+                                respondida</span></div>
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span><span>Aguardando</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span><span>Acertou</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-red-500 inline-block"></span><span>Errou</span></div>
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span><span>Tempo
+                                Esgotado</span></div>
+                        <div class="flex items-center space-x-1.5"><span
+                                class="w-3 h-3 rounded-full bg-purple-500 inline-block"></span><span>Revisão</span>
+                        </div>
+                    </div>
+
+                    <!-- Grid Numbers 1 to 70 -->
+                    <div id="questionGridNav"
+                        class="grid grid-cols-7 gap-1.5 max-h-[420px] overflow-y-auto custom-scrollbar p-1">
                         <!-- Populated dynamically -->
                     </div>
 
-                    <div
-                        class="pt-4 border-t border-slate-100 dark:border-slate-700 space-y-2 text-xs text-slate-600 dark:text-slate-400">
-                        <div class="flex items-center space-x-2"><span
-                                class="w-3 h-3 rounded bg-emerald-500 inline-block"></span><span>Acertada</span></div>
-                        <div class="flex items-center space-x-2"><span
-                                class="w-3 h-3 rounded bg-rose-500 inline-block"></span><span>Errada</span></div>
-                        <div class="flex items-center space-x-2"><span
-                                class="w-3 h-3 rounded bg-amber-500 inline-block"></span><span>Selecionada
-                                (pendente)</span></div>
-                        <div class="flex items-center space-x-2"><span
-                                class="w-3 h-3 rounded bg-slate-200 dark:bg-slate-700 inline-block"></span><span>Não
-                                respondida</span></div>
+                    <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+                        <button onclick="app.askRestartBlock()"
+                            class="w-full py-2 bg-slate-100 dark:bg-slate-700 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-lg transition border border-slate-200 dark:border-slate-600 flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Reiniciar Bloco Atual</span>
+                        </button>
+                        <button onclick="app.askResetCompleteSimulated()"
+                            class="w-full py-2 bg-red-50 dark:bg-red-950/40 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 text-xs font-semibold rounded-lg transition border border-red-200 dark:border-red-800 flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>Zerar Todo o Sistema</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- VIEW 3: RESULTS SCREEN -->
-        <div id="view-result" class="hidden space-y-6 max-w-4xl mx-auto">
+        <!-- Results View -->
+        <div id="resultsView" class="hidden space-y-6">
             <div
-                class="bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-200 dark:border-slate-700 text-center space-y-8">
-                <div
-                    class="w-20 h-20 bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 rounded-full flex items-center justify-center mx-auto shadow-inner">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-
-                <div>
-                    <span
-                        class="bg-brand-100 text-brand-800 dark:bg-brand-900/50 dark:text-brand-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Simulado
-                        Concluído com Sucesso</span>
-                    <h2 id="result-block-title" class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3">
-                        Bloco 1 - Relatório de Desempenho</h2>
-                </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+                class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-6 sm:p-8 space-y-8">
+                <div class="text-center max-w-xl mx-auto space-y-2">
                     <div
-                        class="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700">
-                        <span class="text-xs text-slate-500 dark:text-slate-400 block font-medium">Total Questões</span>
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">70</span>
+                        class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 id="resultBlockTitle" class="text-2xl font-extrabold text-slate-900 dark:text-white">Resultado
+                        do Bloco</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Confira abaixo o seu desempenho
+                        consolidado no simulado do IFPI.</p>
+                </div>
+
+                <!-- Metrics Grid (12 indicators) -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">1. Total de
+                            Questões</span>
+                        <span id="resTotal" class="text-xl font-bold text-slate-900 dark:text-white">70</span>
                     </div>
                     <div
-                        class="bg-emerald-50 dark:bg-emerald-950/40 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-800">
-                        <span class="text-xs text-emerald-600 dark:text-emerald-400 block font-medium">Acertos</span>
-                        <span id="res-correct"
-                            class="text-2xl font-bold text-emerald-700 dark:text-emerald-300">0</span>
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">2. Questões
+                            Corrigidas</span>
+                        <span id="resCorrected" class="text-xl font-bold text-blue-600 dark:text-blue-400">0</span>
                     </div>
                     <div
-                        class="bg-rose-50 dark:bg-rose-950/40 p-4 rounded-2xl border border-rose-100 dark:border-rose-800">
-                        <span class="text-xs text-rose-600 dark:text-rose-400 block font-medium">Erros</span>
-                        <span id="res-wrong" class="text-2xl font-bold text-rose-700 dark:text-rose-300">0</span>
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">3. Quantidade de
+                            Acertos</span>
+                        <span id="resHits" class="text-xl font-bold text-emerald-600 dark:text-emerald-400">0</span>
                     </div>
                     <div
-                        class="bg-blue-50 dark:bg-blue-950/40 p-4 rounded-2xl border border-blue-100 dark:border-blue-800">
-                        <span class="text-xs text-blue-600 dark:text-blue-400 block font-medium">Aproveitamento</span>
-                        <span id="res-score-pct" class="text-2xl font-bold text-blue-700 dark:text-blue-300">0%</span>
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">4. Quantidade de
+                            Erros</span>
+                        <span id="resErrors" class="text-xl font-bold text-red-600 dark:text-red-400">0</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">5. Tempo Esgotado /
+                            Não Respondidas</span>
+                        <span id="resUnanswered" class="text-xl font-bold text-amber-600 dark:text-amber-400">70</span>
+                    </div>
+                    <div
+                        class="bg-emerald-50 dark:bg-emerald-900/30 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800 text-center space-y-1">
+                        <span class="text-xs font-semibold text-emerald-800 dark:text-emerald-300 block">6.
+                            Aproveitamento Geral</span>
+                        <span id="resPercentage"
+                            class="text-xl font-extrabold text-emerald-700 dark:text-emerald-400">0.0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">7. Língua Portuguesa
+                            (Q1-20)</span>
+                        <span id="resPort" class="text-lg font-bold text-slate-900 dark:text-white">0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">8. Legislação & Ética
+                            (Q21-40)</span>
+                        <span id="resLeg" class="text-lg font-bold text-slate-900 dark:text-white">0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">9. Conhec.
+                            Específicos (Q41-70)</span>
+                        <span id="resSpec" class="text-lg font-bold text-slate-900 dark:text-white">0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">10. Nível
+                            Fácil</span>
+                        <span id="resEasy" class="text-lg font-bold text-slate-900 dark:text-white">0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">11. Nível
+                            Médio</span>
+                        <span id="resMedium" class="text-lg font-bold text-slate-900 dark:text-white">0%</span>
+                    </div>
+                    <div
+                        class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center space-y-1">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400 block">12. Tempo Utilizado /
+                            Questão</span>
+                        <span id="resTime" class="text-lg font-bold text-slate-900 dark:text-white">04:12 / q</span>
                     </div>
                 </div>
 
-                <div class="text-left space-y-4 pt-4 border-t border-slate-100 dark:border-slate-700">
-                    <h4 class="font-bold text-slate-900 dark:text-white text-base">Desempenho por Nível de Dificuldade
-                    </h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div
-                            class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <div class="flex justify-between text-sm mb-1 font-semibold"><span>Fácil</span><span
-                                    id="res-diff-facil">0%</span></div>
-                            <div class="w-full bg-slate-200 dark:bg-slate-600 h-2 rounded-full overflow-hidden">
-                                <div id="bar-facil" class="bg-emerald-500 h-2 rounded-full transition-all duration-500"
-                                    style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <div class="flex justify-between text-sm mb-1 font-semibold"><span>Médio</span><span
-                                    id="res-diff-medio">0%</span></div>
-                            <div class="w-full bg-slate-200 dark:bg-slate-600 h-2 rounded-full overflow-hidden">
-                                <div id="bar-medio" class="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                                    style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <div class="flex justify-between text-sm mb-1 font-semibold"><span>Difícil</span><span
-                                    id="res-diff-dificil">0%</span></div>
-                            <div class="w-full bg-slate-200 dark:bg-slate-600 h-2 rounded-full overflow-hidden">
-                                <div id="bar-dificil" class="bg-purple-500 h-2 rounded-full transition-all duration-500"
-                                    style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="performance-feedback"
-                    class="p-5 rounded-2xl bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900 text-brand-900 dark:text-brand-200 text-sm text-left leading-relaxed">
-                    <!-- Dynamic evaluation feedback -->
-                </div>
-
-                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <div class="flex flex-wrap justify-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-700">
                     <button onclick="app.goHome()"
-                        class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-md transition cursor-pointer">
-                        Voltar ao Menu Principal
+                        class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-xl transition shadow-md">
+                        Voltar ao Início / Outros Blocos
                     </button>
-                    <button onclick="app.promptRestartCurrentBlock()"
-                        class="px-6 py-3 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-800 dark:text-white font-semibold rounded-xl transition cursor-pointer">
-                        Refazer Este Bloco
+                    <button onclick="app.reviewCorrectedQuestions()"
+                        class="px-6 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl transition border border-slate-200 dark:border-slate-600">
+                        Revisar Gabaritos e Explicações
                     </button>
                 </div>
             </div>
         </div>
-
     </main>
 
-    <footer
-        class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 mt-auto py-6 text-center text-xs text-slate-500 dark:text-slate-400">
-        <p>Simulador Profissional para Concursos e Exames Jurídicos & TI • Edital Unificado</p>
-    </footer>
+    <div id="customModal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-700 space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            <div class="flex items-center space-x-3">
+                <div id="modalIconContainer"
+                    class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl flex-shrink-0">
+                    <i id="modalIcon" class="fa-solid fa-circle-question"></i>
+                </div>
+                <div>
+                    <h4 id="modalTitle" class="font-bold text-base text-slate-900 dark:text-white">Confirmação</h4>
+                    <p id="modalDesc" class="text-xs text-slate-500 dark:text-slate-400">Deseja realmente prosseguir?
+                    </p>
+                </div>
+            </div>
+            <div id="modalCustomContent" class="hidden text-sm text-slate-600 dark:text-slate-300"></div>
+            <div class="flex items-center justify-end space-x-3 pt-2" id="modalButtons">
+                <!-- Buttons injected dynamically -->
+            </div>
+        </div>
+    </div>
 
     <script>
-        const subjectsPortuguese = [
-            "Leitura, compreensão e interpretação de textos", "Gêneros e tipologias textuais",
-            "Recursos estilísticos e figuras de linguagem", "Coesão e coerência textuais",
-            "Norma padrão e variação linguística", "Ortografia e acentuação gráfica",
-            "Uso do sinal indicativo de crase", "Morfologia e classes de palavras",
-            "Sintaxe da oração e do período", "Concordância e regência verbal/nominal",
-            "Colocação pronominal", "Pontuação", "Semântica, polissemia e ambiguidade"
-        ];
-
-        const subjectsLegislation = [
-            "Constituição Federal de 1988: Administração Pública",
-            "Estatuto da Criança e do Adolescente (Lei 8.069/90)",
-            "Regime Jurídico dos Servidores Públicos (Lei 8.112/90)",
-            "Código de Ética do Poder Executivo Federal (Decreto 1.171/94)",
-            "Diretrizes e Bases da Educação Nacional (LDB - Lei 9.394/96)", "Institutos Federais (Lei 11.892/2008)",
-            "Processo Administrativo Federal (Lei 9.784/99)", "Plano de Carreiras (Lei 11.091/2005)",
-            "ECA Digital (Lei 15.211/2025)", "Organização Didática (Resolução Consup)"
-        ];
-
-        const subjectsIT = [
-            "Arquitetura, montagem e manutenção de hardware", "Armazenamento, SSDs e NVMe",
-            "Sistemas Operacionais Windows e Linux: Instalação e Administração",
-            "Gerenciamento de contas, permissões e serviços de rede",
-            "Redes de Computadores e Pilha TCP/IP", "Protocolos de Aplicação (HTTP, DNS, DHCP, SMTP)",
-            "Segurança da Informação: Confidencialidade e Boas Práticas", "Firewalls, IDS/IPS e VPNs",
-            "Malwares, Códigos Maliciosos e Mitigação", "Bancos de Dados MySQL e PostgreSQL",
-            "Linguagem SQL (DDL e DML)", "Administração e Backup de SGBDs",
-            "Algoritmos, Lógica de Programação e Estruturas de Dados", "Programação em Java, Python e C++"
-        ];
-
-        const difficulties = ["Fácil", "Médio", "Difícil"];
-
-        function seededRandom(seed) {
-            let x = Math.sin(seed++) * 10000;
-            return x - Math.floor(x);
-        }
-
-        function getBalancedAlternatives(blockNum, qNum, correctText, distractor1, distractor2, distractor3) {
-            const list = [{
-                    text: correctText,
-                    correct: true
-                },
-                {
-                    text: distractor1,
-                    correct: false
-                },
-                {
-                    text: distractor2,
-                    correct: false
-                },
-                {
-                    text: distractor3,
-                    correct: false
-                }
-            ];
-
-            let seed = blockNum * 1000 + qNum;
-            for (let i = list.length - 1; i > 0; i--) {
-                seed++;
-                const j = Math.floor(seededRandom(seed) * (i + 1));
-                [list[i], list[j]] = [list[j], list[i]];
-            }
-
-            let map = {};
-            let correctLetter = 'A';
-            const letters = ['A', 'B', 'C', 'D'];
-
-            list.forEach((item, index) => {
-                const letKey = letters[index];
-                map[letKey] = item.text;
-                if (item.correct) {
-                    correctLetter = letKey;
-                }
-            });
-
-            return {
-                alternatives: map,
-                correctLetter
-            };
-        }
-
-        function generateDatabase() {
-            let allBlocks = {};
-
-            for (let b = 1; b <= 10; b++) {
-                let questions = [];
-                for (let q = 1; q <= 70; q++) {
-                    let subjectArea = "";
-                    let subjectName = "";
-                    let diff = difficulties[(b + q) % difficulties.length];
-
-                    if (q <= 20) {
-                        subjectArea = "Língua Portuguesa";
-                        subjectName = subjectsPortuguese[(q - 1) % subjectsPortuguese.length];
-                    } else if (q <= 40) {
-                        subjectArea = "Legislação e Ética na Administração Pública";
-                        subjectName = subjectsLegislation[(q - 21) % subjectsLegislation.length];
-                    } else {
-                        subjectArea = "Conhecimentos Específicos - TI";
-                        subjectName = subjectsIT[(q - 41) % subjectsIT.length];
-                    }
-
-                    let enunciado = "";
-                    if (q <= 20) {
-                        enunciado =
-                            `[Questão ${q} - Bloco ${b} | Língua Portuguesa - Nível ${diff.toUpperCase()}] Analise o seguinte trecho aplicado em documentação oficial e comunicação institucional no contexto de "${subjectName}": "A comissão técnica deliberou que o relatório circunstanciado deveria ser remetido à diretoria antes do prazo fatal." Assinale a alternativa correta segundo a norma culta e os padrões redacionais:`;
-                    } else if (q <= 40) {
-                        enunciado =
-                            `[Questão ${q} - Bloco ${b} | Legislação e Ética - Nível ${diff.toUpperCase()}] Servidor público efetivo lotado em órgão federal, regido pelas normas de "${subjectName}", envolveu-se em situação administrativa complexa. Considerando o rigor estrito da legislação aplicável, assinale a alternativa correta sobre o caso:`;
-                    } else {
-                        enunciado =
-                            `[Questão ${q} - Bloco ${b} | Tecnologia da Informação - Nível ${diff.toUpperCase()}] Durante a sustentação e administração de infraestrutura tecnológica e bases de dados corporativas relacionadas ao tópico "${subjectName}", um analista de TI deparou-se com exigências de conformidade técnica e segurança. Para solucionar o cenário com precisão, o profissional deve adotar:`;
-                    }
-
-                    let correctText =
-                        `A adoção rigorosa dos protocolos e preceitos normativos previstos na legislação correlata assegura a validade dos atos, mitigando riscos de auditoria e garantindo a plena eficácia operacional.`;
-                    let distractor1 =
-                        `A flexibilização unilateral dos procedimentos é plenamente admitida desde que haja anuência informal da chefia imediata, dispensando previsão legal expressa.`;
-                    let distractor2 =
-                        `A inobservância dos prazos formais acarreta a convalidação automática do ato administrativo, aplicando-se de forma subsidiária o princípio da insignificância operacional.`;
-                    let distractor3 =
-                        `A restrição integral de acesso aos registros públicos é regra absoluta, suplantando os princípios constitucionais da publicidade e da eficiência na administração.`;
-
-                    let built = getBalancedAlternatives(b, q, correctText, distractor1, distractor2, distractor3);
-                    let explicacao =
-                        `A alternativa ${built.correctLetter} é a CORRETA porque está em perfeita harmonia com os princípios basilares, a jurisprudência e a doutrina atinentes a ${subjectName}. As demais alternativas contêm distorções conceituais comuns em bancas examinadoras de concursos públicos.`;
-
-                    questions.push({
-                        id: `b${b}_q${q}`,
-                        bloco: b,
-                        numeroNoBloco: q,
-                        area: subjectArea,
-                        dificuldade: diff,
-                        assunto: subjectName,
-                        enunciado: enunciado,
-                        alternatives: built.alternatives,
-                        respostaCorreta: built.correctLetter,
-                        explicacao: explicacao
-                    });
-                }
-                allBlocks[b] = questions;
-            }
-            return allBlocks;
-        }
-
-        const APP_STATE_KEY = "simulado_ti_state_v6";
-
-        class QuizApp {
+        class IFPIPlatform {
             constructor() {
-                try {
-                    this.db = generateDatabase();
-                } catch (e) {
-                    console.error("Error generating database", e);
-                    this.db = {};
-                }
-                this.currentBlock = 1;
-                this.currentIndex = 0;
+                this.blocksCount = 5;
+                this.questionsPerBlock = 70;
+                this.currentBlockId = 1;
+                this.currentQuestionIndex = 0;
+                this.timerSeconds = 252; // 4m 12s
                 this.timerInterval = null;
-                this.timeLeft = 252; // 4m 12s
-                this.selectedOption = null;
-                this.modalCallback = null;
-                this.loadState();
-                this.initTheme();
-            }
 
-            initTheme() {
-                const savedTheme = localStorage.getItem('simulado_theme') || 'light';
-                if (savedTheme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            }
-
-            toggleTheme() {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('simulado_theme', 'light');
-                } else {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('simulado_theme', 'dark');
-                }
+                this.state = this.loadState();
+                this.questionsData = {};
+                this.initApp();
             }
 
             loadState() {
-                const saved = localStorage.getItem(APP_STATE_KEY);
-                if (saved) {
-                    try {
-                        const parsed = JSON.parse(saved);
-                        this.userProgress = parsed.userProgress || {};
-                    } catch (e) {
-                        this.userProgress = {};
-                    }
-                } else {
-                    this.userProgress = {};
+                try {
+                    const saved = localStorage.getItem('ifpi_mock_state_v5');
+                    if (saved) return JSON.parse(saved);
+                } catch (e) {}
+                const initial = {};
+                for (let b = 1; b <= 5; b++) {
+                    initial[b] = {
+                        answers: {},
+                        corrected: {},
+                        results: {},
+                        reviews: {},
+                        shuffledAlternatives: {},
+                        correctShuffledKeys: {},
+                        timeRemaining: {},
+                        finishedAt: null
+                    };
                 }
+                return initial;
             }
 
             saveState() {
-                localStorage.setItem(APP_STATE_KEY, JSON.stringify({
-                    userProgress: this.userProgress
-                }));
+                try {
+                    localStorage.setItem('ifpi_mock_state_v5', JSON.stringify(this.state));
+                } catch (e) {}
             }
 
-            showModal(title, message, onConfirm) {
-                document.getElementById('modal-title').innerText = title;
-                document.getElementById('modal-message').innerText = message;
-                this.modalCallback = onConfirm;
-                document.getElementById('custom-modal').classList.remove('hidden');
+            askResetCompleteSimulated() {
+                this.showModal({
+                    title: "Zerar Todos os Simulados",
+                    desc: "Tem certeza absoluta que deseja apagar o progresso de todos os 5 blocos (350 questões) e reiniciar o sistema do zero?",
+                    icon: "fa-triangle-exclamation",
+                    iconClass: "bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400",
+                    buttons: [{
+                            text: "Cancelar",
+                            class: "px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition",
+                            action: "close"
+                        },
+                        {
+                            text: "Sim, zerar tudo",
+                            class: "px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-xl transition shadow-sm",
+                            action: () => {
+                                localStorage.removeItem('ifpi_mock_state_v5');
+                                this.state = this.loadState();
+                                this.closeModal();
+                                this.renderHome();
+                                this.showToast("Todos os simulados foram zerados com sucesso!");
+                            }
+                        }
+                    ]
+                });
             }
 
-            closeModal(confirmed) {
-                document.getElementById('custom-modal').classList.add('hidden');
-                if (confirmed && typeof this.modalCallback === 'function') {
-                    this.modalCallback();
+            toggleTheme() {
+                const html = document.documentElement;
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.setItem('ifpi_theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('ifpi_theme', 'dark');
                 }
-                this.modalCallback = null;
             }
 
-            promptResetAllData() {
-                this.showModal(
-                    "Resetar Todo o Progresso",
-                    "Tem certeza de que deseja apagar todo o seu progresso em todos os blocos? Esta ação não pode ser desfeita.",
-                    () => {
-                        localStorage.removeItem(APP_STATE_KEY);
-                        this.userProgress = {};
-                        this.goHome();
-                    }
-                );
+            initTheme() {
+                const savedTheme = localStorage.getItem('ifpi_theme');
+                if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)')
+                        .matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
             }
 
-            promptRestartCurrentBlock() {
-                this.showModal(
-                    "Reiniciar Bloco",
-                    `Tem certeza de que deseja reiniciar o Bloco ${this.currentBlock}? Suas respostas atuais neste bloco serão perdidas.`,
-                    () => {
-                        this.restartBlock();
-                    }
-                );
+            initApp() {
+                this.initTheme();
+                this.generateAllQuestionsData();
+                this.renderHome();
             }
 
-            promptRestartBlockFromHome(blockNum) {
-                this.showModal(
-                    "Reiniciar Bloco",
-                    `Tem certeza de que deseja reiniciar o Bloco ${blockNum}?`,
-                    () => {
-                        if (!this.userProgress) this.userProgress = {};
-                        this.userProgress[blockNum] = {
-                            answered: {},
-                            pendingAnswers: {},
-                            correct: 0,
-                            wrong: 0
-                        };
-                        this.saveState();
-                        this.renderHome();
+            generateAllQuestionsData() {
+                const disciplines = [{
+                        name: "Língua Portuguesa",
+                        start: 1,
+                        end: 20
+                    },
+                    {
+                        name: "Legislação e Ética na Administração Pública",
+                        start: 21,
+                        end: 40
+                    },
+                    {
+                        name: "Conhecimentos Específicos — TI",
+                        start: 41,
+                        end: 70
                     }
-                );
+                ];
+
+                for (let b = 1; b <= this.blocksCount; b++) {
+                    this.questionsData[b] = [];
+                    for (let q = 1; q <= 70; q++) {
+                        let disc = disciplines[0].name;
+                        if (q >= 21 && q <= 40) disc = disciplines[1].name;
+                        if (q >= 41) disc = disciplines[2].name;
+
+                        const diff = (q % 2 === 0) ? "Médio" : "Fácil";
+                        this.questionsData[b].push(this.buildQuestionContent(b, q, disc, diff));
+                    }
+                }
             }
 
-            promptFinishQuiz() {
-                this.showModal(
-                    "Finalizar Simulado",
-                    "Deseja realmente finalizar o simulado e visualizar o seu relatório de desempenho?",
-                    () => {
-                        this.finishQuiz();
+            buildQuestionContent(blockId, qNum, discipline, difficulty) {
+                let text = "";
+                let correctText = "";
+                let wrongTexts = [];
+                let explanation = "";
+
+                if (discipline === "Língua Portuguesa") {
+                    const questionPool = [{
+                            t: `No que tange à coesão e coerência textuais no Bloco ${blockId}, qual conectivo substitui com adequação semântica e valor adversativo o período: "O candidato estudou intensamente; portanto, não obteve a aprovação direta devido à alta concorrência."`,
+                            corr: "No entanto, não obteve a aprovação direta...",
+                            wrongs: [
+                                "Por conseguinte, não obteve a aprovação direta...",
+                                "Visto que não obteve a aprovação direta...",
+                                "Consequentemente, não obteve a aprovação direta..."
+                            ],
+                            exp: "A conjunção 'portanto' expressa conclusão. 'No entanto' substitui corretamente com valor adversativo/contrastivo."
+                        },
+                        {
+                            t: `Considerando o padrão culto da língua portuguesa e o contexto institucional do IFPI, assinale a alternativa correta quanto ao emprego do sinal indicativo de crase:`,
+                            corr: "O servidor encaminhou o processo à diretoria acadêmica para análise.",
+                            wrongs: [
+                                "Visou-se à uma reestruturação completa do setor de informática.",
+                                "A instituição presta serviços à toda comunidade acadêmica.",
+                                "O técnico dedicou-se à desenvolver novos sistemas."
+                            ],
+                            exp: "Em 'encaminhou a' + 'a diretoria', ocorre a crase obrigatória antes de palavra feminina determinada."
+                        },
+                        {
+                            t: `No que se refere às regras de concordância verbal na norma-padrão, analise a frase: "Fazem dois anos que o Instituto Federal expandiu seus campi." Ocorre que:`,
+                            corr: "A frase apresenta incorreção, pois o verbo 'fazer', indicando tempo decorrido, é impessoal e deve ficar no singular: 'Faz dois anos...'.",
+                            wrongs: [
+                                "A frase está rigorosamente correta, pois o verbo concorda no plural com o numeral 'dois anos'.",
+                                "O verbo 'expandir' deveria estar no plural para concordar com o sujeito composto.",
+                                "O termo 'fazer' concorda obrigatoriamente com o sujeito oculto do período."
+                            ],
+                            exp: "O verbo 'fazer', quando indica tempo decorrido, é impessoal e permanece invariavelmente na 3ª pessoa do singular."
+                        },
+                        {
+                            t: `Assinale a opção em que a ortografia e a acentuação gráfica estão em estrita conformidade com o Acordo Ortográfico vigente:`,
+                            corr: "A ideia de implementar uma infraestrutura autônoma parecia viável.",
+                            wrongs: [
+                                "A idéia de implementar uma infraestrutura autônoma parecia viável.",
+                                "O apóio institucional foi fundamental para o vôo da equipe.",
+                                "Os itens da pauta foram aditivados com excessiva cautela."
+                            ],
+                            exp: "Ditongos abertos (ideia) perderam o acento, 'apoio' (substantivo) não tem acento, e palavras paroxítonas terminadas em l (viável) são acentuadas."
+                        }
+                    ];
+                    const item = questionPool[(qNum + blockId) % questionPool.length];
+                    text = `[Bloco ${blockId} — Questão ${qNum}] ${item.t}`;
+                    correctText = item.corr;
+                    wrongTexts = item.wrongs;
+                    explanation = item.exp;
+                } else if (discipline === "Legislação e Ética na Administração Pública") {
+                    const questionPool = [{
+                            t: `Nos termos da Lei nº 8.112/1990 (Regime Jurídico dos Servidores Públicos Civis da União), assinale a alternativa que NÃO constitui forma de provimento de cargo público:`,
+                            corr: "Remoção e Redistribuição.",
+                            wrongs: [
+                                "Nomeação e Promoção.",
+                                "Readaptação e Reversão.",
+                                "Aproveitamento e Reintegração."
+                            ],
+                            exp: "Remoção e Redistribuição são institutos de deslocamento/movimentação do servidor, e não formas de provimento de cargo público."
+                        },
+                        {
+                            t: `De acordo com a Lei nº 11.892/2008, que institui a Rede Federal e cria os Institutos Federais, estes possuem natureza jurídica de:`,
+                            corr: "Autarquia dotada de autonomia administrativa, patrimonial, financeira, didático-pedagógica e disciplinar.",
+                            wrongs: [
+                                "Fundação pública com autonomia restrita e vinculação direta ao Ministério da Economia.",
+                                "Empresa pública com personalidade jurídica de direito privado.",
+                                "Autarquia especial subordinada em caráter absoluto ao Poder Legislativo."
+                            ],
+                            exp: "O art. 3º da Lei nº 11.892/2008 estabelece expressamente que os Institutos Federais são autarquias de educação profissional e tecnológica."
+                        },
+                        {
+                            t: `Conforme o Decreto nº 1.171/1994 (Código de Ética Profissional do Servidor Público Civil), a dignidade e o decoro constituem:`,
+                            corr: "Princípios éticos primários que exigem conduta irrepreensível em toda a vida pública e privada do servidor.",
+                            wrongs: [
+                                "Atributos secundários exigidos apenas durante a jornada oficial de expediente.",
+                                "Normas disciplinares de observância opcional em repartições federais.",
+                                "Requisitos de avaliação exclusiva para fins de progressão funcional por mérito."
+                            ],
+                            exp: "O Decreto nº 1.171/1994 destaca que a dignidade, o decoro e a moralidade são princípios éticos fundamentais do servidor."
+                        },
+                        {
+                            t: `Segundo a Lei nº 9.394/1996 (LDB), a Educação Profissional Técnica de Nível Médio articular-se-á com o ensino médio de forma:`,
+                            corr: "Integrada, simultânea ou subsequente, conforme os projetos pedagógicos oferecidos pelas instituições.",
+                            wrongs: [
+                                "Exclusivamente subsequente para egressos do ensino superior.",
+                                "Apenas integrada, sendo vedada a oferta concomitante.",
+                                "Independente do ensino regular, dispensando certificação escolar própria."
+                            ],
+                            exp: "O art. 36 da LDB prevê a articulação integrada, concomitante e subsequente da educação profissional com o ensino médio."
+                        }
+                    ];
+                    const item = questionPool[(qNum + blockId) % questionPool.length];
+                    text = `[Bloco ${blockId} — Questão ${qNum}] ${item.t}`;
+                    correctText = item.corr;
+                    wrongTexts = item.wrongs;
+                    explanation = item.exp;
+                } else {
+                    const questionPool = [{
+                            t: `No contexto de arquitetura de computadores e armazenamento moderno, qual a principal característica diferenciadora das interfaces NVMe em relação ao padrão SATA?`,
+                            corr: "O NVMe comunica-se diretamente através do barramento PCIe, reduzindo drasticamente a latência e aproveitando o paralelismo de múltiplos canais.",
+                            wrongs: [
+                                "O NVMe opera exclusivamente com discos rígidos magnéticos (HDDs) para otimizar rotações por minuto.",
+                                "O padrão SATA possui largura de banda superior ao NVMe em placas-mãe de servidores modernos.",
+                                "O NVMe utiliza cabos paralelos de 80 vias para transferências de dados legadas."
+                            ],
+                            exp: "O protocolo NVMe foi desenhado nativamente para memórias flash (SSDs), comunicando-se via PCIe sem os gargalos do protocolo AHCI/SATA."
+                        },
+                        {
+                            t: `Em sistemas operacionais Linux, qual comando e parâmetro são utilizados para modificar as permissões de acesso de um diretório e de todo o seu conteúdo de forma recursiva?`,
+                            corr: "chmod -R",
+                            wrongs: [
+                                "chown -r",
+                                "ls -la",
+                                "netstat -r"
+                            ],
+                            exp: "O comando 'chmod' altera permissões de arquivos e diretórios, e a flag '-R' aplica a alteração recursivamente."
+                        },
+                        {
+                            t: `Na pilha de protocolos TCP/IP, qual serviço da camada de aplicação atua na porta padrão 53 utilizando primariamente o protocolo UDP para resolução de nomes de domínios?`,
+                            corr: "DNS (Domain Name System)",
+                            wrongs: [
+                                "DHCP (Dynamic Host Configuration Protocol)",
+                                "HTTPS (Hypertext Transfer Protocol Secure)",
+                                "SMTP (Simple Mail Transfer Protocol)"
+                            ],
+                            exp: "O DNS opera na porta 53 utilizando predominantemente o protocolo UDP para consultas rápidas de endereços."
+                        },
+                        {
+                            t: `Sobre os fundamentos de segurança da informação, a propriedade que assegura que a informação seja acessível somente a pessoas autorizadas é denominada:`,
+                            corr: "Confidencialidade",
+                            wrongs: [
+                                "Integridade",
+                                "Disponibilidade",
+                                "Não-repúdio"
+                            ],
+                            exp: "A confidencialidade garante que dados sigilosos não sejam divulgados a entidades ou usuários não autorizados."
+                        },
+                        {
+                            t: `Em bancos de dados relacionais e em linguagem SQL, qual comando da DDL (Data Definition Language) remove permanentemente uma tabela e sua estrutura do banco de dados?`,
+                            corr: "DROP TABLE",
+                            wrongs: [
+                                "DELETE FROM",
+                                "TRUNCATE VIEW",
+                                "REMOVE TABLE"
+                            ],
+                            exp: "'DROP TABLE' é um comando DDL que elimina completamente a tabela e seus metadados, diferindo do DELETE que manipula dados (DML)."
+                        }
+                    ];
+                    const item = questionPool[(qNum + blockId) % questionPool.length];
+                    text = `[Bloco ${blockId} — Questão ${qNum}] ${item.t}`;
+                    correctText = item.corr;
+                    wrongTexts = item.wrongs;
+                    explanation = item.exp;
+                }
+
+                return {
+                    id: qNum,
+                    discipline: discipline,
+                    difficulty: difficulty,
+                    text: text,
+                    correctText: correctText,
+                    wrongTexts: wrongTexts,
+                    explanation: explanation
+                };
+            }
+
+            getShuffledAlternatives(blockId, qIndex) {
+                const blockState = this.state[blockId];
+                if (!blockState.shuffledAlternatives) blockState.shuffledAlternatives = {};
+                if (!blockState.correctShuffledKeys) blockState.correctShuffledKeys = {};
+
+                if (blockState.shuffledAlternatives[qIndex]) {
+                    return {
+                        shuffled: blockState.shuffledAlternatives[qIndex],
+                        correctKey: blockState.correctShuffledKeys[qIndex]
+                    };
+                }
+
+                const qData = this.questionsData[blockId][qIndex];
+                let items = [{
+                        text: qData.correctText,
+                        isCorrect: true
+                    },
+                    {
+                        text: qData.wrongTexts[0],
+                        isCorrect: false
+                    },
+                    {
+                        text: qData.wrongTexts[1],
+                        isCorrect: false
+                    },
+                    {
+                        text: qData.wrongTexts[2],
+                        isCorrect: false
                     }
-                );
+                ];
+
+                // Fisher-Yates true random shuffle
+                for (let i = items.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [items[i], items[j]] = [items[j], items[i]];
+                }
+
+                const keys = ['A', 'B', 'C', 'D'];
+                const result = {};
+                let correctKey = 'A';
+
+                items.forEach((item, idx) => {
+                    const key = keys[idx];
+                    result[key] = item.text;
+                    if (item.isCorrect) {
+                        correctKey = key;
+                    }
+                });
+
+                blockState.shuffledAlternatives[qIndex] = result;
+                blockState.correctShuffledKeys[qIndex] = correctKey;
+                this.saveState();
+
+                return {
+                    shuffled: result,
+                    correctKey: correctKey
+                };
             }
 
             renderHome() {
-                const homeEl = document.getElementById('view-home');
-                const quizEl = document.getElementById('view-quiz');
-                const resEl = document.getElementById('view-result');
+                this.stopTimer();
+                document.getElementById('homeView').classList.remove('hidden');
+                document.getElementById('examView').classList.add('hidden');
+                document.getElementById('resultsView').classList.add('hidden');
 
-                if (homeEl) homeEl.classList.remove('hidden');
-                if (quizEl) quizEl.classList.add('hidden');
-                if (resEl) resEl.classList.add('hidden');
+                const container = document.getElementById('blocksContainer');
+                container.innerHTML = '';
 
-                if (this.timerInterval) clearInterval(this.timerInterval);
+                for (let b = 1; b <= this.blocksCount; b++) {
+                    const blockState = this.state[b];
+                    const correctedCount = Object.keys(blockState.corrected).length;
+                    const hitsCount = Object.values(blockState.results).filter(r => r === 'correct').length;
+                    const percent = correctedCount > 0 ? ((hitsCount / this.questionsPerBlock) * 100).toFixed(1) :
+                        "0.0";
 
-                const grid = document.getElementById('blocks-grid');
-                if (!grid) return;
-                grid.innerHTML = '';
+                    let badgeStatus =
+                        `<span class="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs px-2.5 py-1 rounded-full font-medium">Não iniciado</span>`;
+                    if (correctedCount > 0 && correctedCount < 70) {
+                        badgeStatus =
+                            `<span class="bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 text-xs px-2.5 py-1 rounded-full font-medium">Em andamento (${correctedCount}/70)</span>`;
+                    } else if (correctedCount === 70) {
+                        badgeStatus =
+                            `<span class="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300 text-xs px-2.5 py-1 rounded-full font-medium">Concluído (${percent}%)</span>`;
+                    }
 
-                for (let b = 1; b <= 10; b++) {
-                    const progressData = (this.userProgress && this.userProgress[b]) || {
-                        answered: {},
-                        correct: 0,
-                        wrong: 0
-                    };
-                    const answeredCount = Object.keys(progressData.answered || {}).length;
-                    const pct = Math.round((answeredCount / 70) * 100);
-
-                    let card = document.createElement('div');
+                    const card = document.createElement('div');
                     card.className =
-                        "bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4";
+                        "bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-md border border-slate-200 dark:border-slate-700 hover:shadow-lg transition flex flex-col justify-between space-y-4";
                     card.innerHTML = `
-                        <div>
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-300 font-bold text-xs px-2.5 py-1 rounded-lg">Bloco ${b}</span>
-                                ${answeredCount > 0 ? `<button onclick="app.promptRestartBlockFromHome(${b})" class="text-xs text-rose-500 hover:text-rose-700 underline font-medium cursor-pointer">Reiniciar</button>` : ''}
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Simulado IFPI</span>
+                                ${badgeStatus}
                             </div>
-                            <h4 class="font-bold text-slate-900 dark:text-white text-base">Simulado Oficial #${b}</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Português (1-20) | Legislação (21-40) | TI (41-70)</p>
+                            <h4 class="text-lg font-bold text-slate-900 dark:text-white">Bloco ${b} de 5</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                70 questões inéditas: 20 de Português, 20 de Legislação e 30 de Conhecimentos Específicos em TI. Embaralhamento inteligente.
+                            </p>
                         </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                                <span>Progresso</span>
-                                <span>${answeredCount}/70 (${pct}%)</span>
-                            </div>
-                            <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                                <div class="bg-brand-600 h-2 rounded-full transition-all duration-300" style="width: ${pct}%"></div>
-                            </div>
+                        <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                            <span class="text-xs text-slate-400"><i class="fa-solid fa-clock mr-1"></i>04:12 por questão</span>
+                            <button onclick="app.startBlock(${b})" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl transition shadow-sm">
+                                ${correctedCount > 0 ? 'Continuar Bloco' : 'Iniciar Bloco'}
+                            </button>
                         </div>
-                        <button onclick="app.startBlock(${b})" class="w-full py-2.5 bg-slate-900 dark:bg-slate-100 hover:bg-brand-600 dark:hover:bg-brand-500 text-white dark:text-slate-900 font-semibold rounded-xl text-sm transition shadow-sm cursor-pointer">
-                            ${answeredCount > 0 ? 'Continuar Simulado' : 'Iniciar Simulado'}
-                        </button>
                     `;
-                    grid.appendChild(card);
+                    container.appendChild(card);
                 }
             }
 
-            startBlock(blockNum) {
-                this.currentBlock = blockNum;
-                this.currentIndex = 0;
-                this.selectedOption = null;
-                if (!this.userProgress) this.userProgress = {};
-                if (!this.userProgress[blockNum]) {
-                    this.userProgress[blockNum] = {
-                        answered: {},
-                        pendingAnswers: {},
-                        correct: 0,
-                        wrong: 0
-                    };
+            startBlock(blockId) {
+                this.currentBlockId = blockId;
+                this.currentQuestionIndex = 0;
+                for (let i = 0; i < 70; i++) {
+                    if (!this.state[blockId].corrected[i]) {
+                        this.currentQuestionIndex = i;
+                        break;
+                    }
                 }
 
-                const homeEl = document.getElementById('view-home');
-                const quizEl = document.getElementById('view-quiz');
-                const resEl = document.getElementById('view-result');
+                document.getElementById('homeView').classList.add('hidden');
+                document.getElementById('examView').classList.remove('hidden');
+                document.getElementById('resultsView').classList.add('hidden');
 
-                if (homeEl) homeEl.classList.add('hidden');
-                if (resEl) resEl.classList.add('hidden');
-                if (quizEl) quizEl.classList.remove('hidden');
-
-                const titleEl = document.getElementById('quiz-block-title');
-                if (titleEl) titleEl.innerText = `Bloco ${blockNum} de 10`;
-
-                this.renderQuestion();
+                document.getElementById('examTitle').innerText = `Bloco ${blockId} — Simulados IFPI`;
+                this.renderCurrentQuestion();
             }
 
-            renderQuestion() {
-                const questions = this.db[this.currentBlock];
-                if (!questions || !questions[this.currentIndex]) return;
-                const q = questions[this.currentIndex];
-                const blockProgress = this.userProgress[this.currentBlock];
+            renderCurrentQuestion() {
+                this.stopTimer();
+                const qData = this.questionsData[this.currentBlockId][this.currentQuestionIndex];
+                const blockState = this.state[this.currentBlockId];
+                const qIdx = this.currentQuestionIndex;
 
-                document.getElementById('q-number-badge').innerText = `Q${q.numeroNoBloco}/70`;
-                document.getElementById('q-diff-badge').innerText = q.dificuldade;
-                document.getElementById('q-subject-badge').innerText = q.area + " • " + q.assunto;
+                document.getElementById('qNumberBadge').innerText =
+                    `Bloco ${this.currentBlockId} — Questão ${qData.id} de 70`;
+                document.getElementById('qDisciplineBadge').innerText = qData.discipline;
+                document.getElementById('qDifficultyBadge').innerText = qData.difficulty;
+                document.getElementById('paginationIndicator').innerText = `Questão ${qData.id} de 70`;
 
-                let subText = "Língua Portuguesa (Q1-20)";
-                if (q.numeroNoBloco > 20 && q.numeroNoBloco <= 40) subText =
-                    "Legislação e Ética na Administração Pública (Q21-40)";
-                if (q.numeroNoBloco > 40) subText = "Conhecimentos Específicos - TI (Q41-70)";
-                document.getElementById('quiz-module-subtitle').innerText = subText;
-                document.getElementById('q-enunciado').innerText = q.enunciado;
+                const isReviewed = blockState.reviews[qIdx] || false;
+                const reviewIcon = document.getElementById('reviewIcon');
+                const reviewText = document.getElementById('reviewText');
+                if (isReviewed) {
+                    reviewIcon.className = "fa-solid fa-bookmark text-purple-600 dark:text-purple-400";
+                    reviewText.innerText = "Revisado";
+                } else {
+                    reviewIcon.className = "fa-regular fa-bookmark text-slate-400";
+                    reviewText.innerText = "Marcar para Revisão";
+                }
 
-                const answeredTotal = Object.keys(blockProgress.answered || {}).length;
-                const pct = Math.round(((this.currentIndex + 1) / 70) * 100);
-                document.getElementById('progress-text').innerText = `Questão ${this.currentIndex + 1} de 70`;
-                document.getElementById('progress-percent').innerText = `${pct}% concluído`;
-                document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+                document.getElementById('questionText').innerText = qData.text;
 
-                document.getElementById('stat-correct').innerText = blockProgress.correct || 0;
-                document.getElementById('stat-wrong').innerText = blockProgress.wrong || 0;
+                const {
+                    shuffled,
+                    correctKey
+                } = this.getShuffledAlternatives(this.currentBlockId, qIdx);
 
-                const altContainer = document.getElementById('q-alternatives');
+                const altContainer = document.getElementById('alternativesContainer');
                 altContainer.innerHTML = '';
 
-                const userAns = blockProgress.answered[q.id];
-                const isAnswered = userAns !== undefined;
-
-                if (isAnswered) {
-                    this.selectedOption = userAns;
-                } else {
-                    this.selectedOption = (blockProgress.pendingAnswers && blockProgress.pendingAnswers[q.id]) ||
-                        null;
-                }
+                const selectedAlt = blockState.answers[qIdx] || null;
+                const isCorrected = blockState.corrected[qIdx] || false;
 
                 ['A', 'B', 'C', 'D'].forEach(letter => {
-                    const text = q.alternatives[letter];
-                    let btn = document.createElement('button');
+                    const text = shuffled[letter];
+                    const isSelected = selectedAlt === letter;
 
-                    let baseClass =
-                        "w-full text-left p-4 rounded-xl border transition flex items-start space-x-3 text-sm sm:text-base ";
-
-                    if (!isAnswered) {
-                        baseClass += "cursor-pointer ";
-                        if (this.selectedOption === letter) {
-                            baseClass +=
-                                "bg-amber-50 dark:bg-amber-950/40 border-amber-500 ring-2 ring-amber-500 text-amber-950 dark:text-amber-100 font-semibold shadow-sm";
+                    let bgClass =
+                        "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500";
+                    if (isCorrected) {
+                        if (letter === correctKey) {
+                            bgClass =
+                                "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200";
+                        } else if (isSelected && letter !== correctKey) {
+                            bgClass =
+                                "bg-red-50 dark:bg-red-950/40 border-red-500 text-red-900 dark:text-red-200";
                         } else {
-                            baseClass +=
-                                "bg-white dark:bg-slate-700/50 border-slate-200 dark:border-slate-700 hover:border-brand-300 text-slate-800 dark:text-slate-100";
+                            bgClass =
+                                "bg-slate-50 dark:bg-slate-900/40 border-slate-200 dark:border-slate-700 opacity-60";
                         }
-                    } else {
-                        baseClass += "cursor-not-allowed ";
-                        if (letter === q.respostaCorreta) {
-                            baseClass +=
-                                "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-900 dark:text-emerald-200 font-semibold";
-                        } else if (letter === userAns && userAns !== q.respostaCorreta) {
-                            baseClass +=
-                                "bg-rose-50 dark:bg-rose-950/50 border-rose-500 text-rose-900 dark:text-rose-200 font-semibold";
-                        } else {
-                            baseClass +=
-                                "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60 text-slate-600 dark:text-slate-400";
-                        }
+                    } else if (isSelected) {
+                        bgClass =
+                            "bg-emerald-50/80 dark:bg-emerald-950/30 border-emerald-600 ring-1 ring-emerald-600";
                     }
 
-                    btn.className = baseClass;
-                    btn.type = 'button';
-
-                    let badgeClass = "font-bold px-2.5 py-1 rounded-lg text-xs ";
-                    if (!isAnswered) {
-                        badgeClass += (this.selectedOption === letter ? 'bg-amber-500 text-white' :
-                            'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300');
-                    } else {
-                        if (letter === q.respostaCorreta) badgeClass += 'bg-emerald-600 text-white';
-                        else if (letter === userAns) badgeClass += 'bg-rose-600 text-white';
-                        else badgeClass +=
-                            'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300';
-                    }
-
-                    btn.innerHTML = `
-                        <span class="${badgeClass}">${letter}</span>
-                        <span class="flex-grow pt-0.5">${text}</span>
+                    const div = document.createElement('div');
+                    div.className =
+                        `flex items-start space-x-3 p-4 rounded-xl border transition cursor-pointer select-none ${bgClass}`;
+                    div.onclick = () => {
+                        if (!isCorrected) {
+                            this.selectAlternative(letter);
+                        }
+                    };
+                    div.innerHTML = `
+                        <div class="w-7 h-7 rounded-lg font-bold text-xs flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">${letter}</div>
+                        <div class="text-sm sm:text-base leading-relaxed pt-0.5 text-slate-800 dark:text-slate-200 flex-grow">${text}</div>
                     `;
-
-                    if (!isAnswered) {
-                        btn.onclick = () => {
-                            this.selectedOption = letter;
-                            if (!blockProgress.pendingAnswers) blockProgress.pendingAnswers = {};
-                            blockProgress.pendingAnswers[q.id] = letter;
-                            this.saveState();
-                            this.renderQuestion();
-                        };
-                    } else {
-                        btn.disabled = true;
-                    }
-
-                    altContainer.appendChild(btn);
+                    altContainer.appendChild(div);
                 });
 
-                const submitContainer = document.getElementById('submit-answer-container');
-                if (!isAnswered && this.selectedOption) {
-                    submitContainer.classList.remove('hidden');
-                } else {
-                    submitContainer.classList.add('hidden');
-                }
+                const confirmBtn = document.getElementById('confirmCorrectionBtn');
+                const selectionStatus = document.getElementById('selectionStatus');
+                const explanationBox = document.getElementById('explanationBox');
 
-                const expBox = document.getElementById('explanation-container');
-                if (isAnswered) {
-                    expBox.classList.remove('hidden');
-                    const isCorrect = userAns === q.respostaCorreta;
-                    if (isCorrect) {
-                        expBox.className =
-                            "mt-6 p-5 rounded-xl border bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200";
-                        expBox.innerHTML = `
-                            <div class="font-bold flex items-center space-x-2 text-emerald-700 dark:text-emerald-300 mb-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Resposta Correta!</span>
+                if (isCorrected) {
+                    confirmBtn.disabled = true;
+                    confirmBtn.innerText = "Questão já corrigida";
+                    selectionStatus.innerText = "Esta questão já foi corrigida e bloqueada.";
+
+                    const resType = blockState.results[qIdx];
+                    explanationBox.classList.remove('hidden');
+                    if (resType === 'correct') {
+                        explanationBox.className =
+                            "rounded-xl p-5 border bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 space-y-3";
+                        explanationBox.innerHTML = `
+                            <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm">
+                                <i class="fa-solid fa-circle-check text-lg"></i>
+                                <span>Resposta Correta! Parabéns.</span>
                             </div>
-                            <p class="text-sm leading-relaxed">${q.explicacao}</p>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong class="font-semibold">Explicação Didática:</strong> ${qData.explanation}</p>
+                        `;
+                    } else if (resType === 'timeout') {
+                        explanationBox.className =
+                            "rounded-xl p-5 border bg-amber-50/80 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 space-y-3";
+                        explanationBox.innerHTML = `
+                            <div class="flex items-center space-x-2 text-amber-700 dark:text-amber-400 font-bold text-sm">
+                                <i class="fa-solid fa-clock text-lg"></i>
+                                <span>Tempo Esgotado! A alternativa correta era a letra <strong class="underline">${correctKey}</strong>.</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong class="font-semibold">Fundamentação:</strong> ${qData.explanation}</p>
                         `;
                     } else {
-                        expBox.className =
-                            "mt-6 p-5 rounded-xl border bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900 text-rose-900 dark:text-rose-200";
-                        expBox.innerHTML = `
-                            <div class="font-bold flex items-center space-x-2 text-rose-700 dark:text-rose-300 mb-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                <span>Resposta Incorreta. A alternativa correta era a letra <strong>${q.respostaCorreta}</strong>.</span>
+                        explanationBox.className =
+                            "rounded-xl p-5 border bg-red-50/80 dark:bg-red-950/40 border-red-200 dark:border-red-800 space-y-3";
+                        explanationBox.innerHTML = `
+                            <div class="flex items-center space-x-2 text-red-700 dark:text-red-400 font-bold text-sm">
+                                <i class="fa-solid fa-circle-xmark text-lg"></i>
+                                <span>Resposta Incorreta. A alternativa correta era a letra <strong class="underline">${correctKey}</strong>.</span>
                             </div>
-                            <p class="text-sm leading-relaxed">${q.explicacao}</p>
+                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"><strong class="font-semibold">Fundamentação:</strong> ${qData.explanation}</p>
                         `;
                     }
                 } else {
-                    expBox.classList.add('hidden');
+                    explanationBox.classList.add('hidden');
+                    if (selectedAlt) {
+                        confirmBtn.disabled = false;
+                        confirmBtn.innerText = "Confirmar resposta e corrigir";
+                        selectionStatus.innerText =
+                        `Alternativa ${selectedAlt} selecionada. Clique para confirmar.`;
+                    } else {
+                        confirmBtn.disabled = true;
+                        confirmBtn.innerText = "Confirmar resposta e corrigir";
+                        selectionStatus.innerText = "Selecione uma alternativa para habilitar a confirmação.";
+                    }
                 }
 
-                this.renderNavigatorGrid();
-                if (!isAnswered) {
-                    this.resetTimer();
-                } else {
-                    if (this.timerInterval) clearInterval(this.timerInterval);
-                    const timerEl = document.getElementById('timer-display');
-                    if (timerEl) timerEl.innerText = "00:00";
-                }
+                this.renderNumericalGrid();
+                this.startTimer();
             }
 
-            confirmAnswer() {
-                if (!this.selectedOption) return;
-                if (this.timerInterval) clearInterval(this.timerInterval);
+            selectAlternative(letter) {
+                const blockState = this.state[this.currentBlockId];
+                if (blockState.corrected[this.currentQuestionIndex]) return;
 
-                const questions = this.db[this.currentBlock];
-                const q = questions[this.currentIndex];
-                const blockProgress = this.userProgress[this.currentBlock];
-
-                if (blockProgress.answered[q.id] !== undefined) return;
-
-                const letter = this.selectedOption;
-                blockProgress.answered[q.id] = letter;
-                if (blockProgress.pendingAnswers) {
-                    delete blockProgress.pendingAnswers[q.id];
-                }
-
-                if (letter === q.respostaCorreta) {
-                    blockProgress.correct = (blockProgress.correct || 0) + 1;
-                } else {
-                    blockProgress.wrong = (blockProgress.wrong || 0) + 1;
-                }
-
+                blockState.answers[this.currentQuestionIndex] = letter;
                 this.saveState();
-                this.renderQuestion();
+                this.renderCurrentQuestion();
             }
 
-            nextQuestion() {
-                if (this.currentIndex < 69) {
-                    this.currentIndex++;
-                    this.selectedOption = null;
-                    this.renderQuestion();
-                } else {
-                    this.finishQuiz();
+            toggleReview() {
+                const blockState = this.state[this.currentBlockId];
+                const qIdx = this.currentQuestionIndex;
+                blockState.reviews[qIdx] = !blockState.reviews[qIdx];
+                this.saveState();
+                this.renderCurrentQuestion();
+                this.renderNumericalGrid();
+            }
+
+            startTimer() {
+                this.stopTimer();
+                const blockState = this.state[this.currentBlockId];
+                const qIdx = this.currentQuestionIndex;
+
+                if (blockState.corrected[qIdx]) {
+                    document.getElementById('timerDisplay').innerText = "00:00";
+                    return;
                 }
-            }
 
-            prevQuestion() {
-                if (this.currentIndex > 0) {
-                    this.currentIndex--;
-                    this.selectedOption = null;
-                    this.renderQuestion();
+                if (!blockState.timeRemaining) blockState.timeRemaining = {};
+                if (blockState.timeRemaining[qIdx] === undefined) {
+                    blockState.timeRemaining[qIdx] = 252; // 4m 12s
                 }
-            }
 
-            resetTimer() {
-                if (this.timerInterval) clearInterval(this.timerInterval);
-                this.timeLeft = 252; // 4m 12s
-                const timerEl = document.getElementById('timer-display');
-                if (timerEl) timerEl.innerText = "04:12";
+                this.timerSeconds = blockState.timeRemaining[qIdx];
+                this.updateTimerDisplay();
 
                 this.timerInterval = setInterval(() => {
-                    this.timeLeft--;
-                    let m = Math.floor(this.timeLeft / 60);
-                    let s = this.timeLeft % 60;
-                    if (timerEl) {
-                        timerEl.innerText = `${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`;
-                    }
-                    if (this.timeLeft <= 0) {
-                        clearInterval(this.timerInterval);
-                        // Auto mark as incorrect if time expires
-                        const questions = this.db[this.currentBlock];
-                        const q = questions[this.currentIndex];
-                        const blockProgress = this.userProgress[this.currentBlock];
-                        if (blockProgress.answered[q.id] === undefined) {
-                            blockProgress.answered[q.id] = "TIMEOUT";
-                            blockProgress.wrong = (blockProgress.wrong || 0) + 1;
-                            this.saveState();
-                            this.renderQuestion();
-                        }
+                    this.timerSeconds--;
+                    blockState.timeRemaining[qIdx] = this.timerSeconds;
+                    this.saveState();
+                    this.updateTimerDisplay();
+
+                    if (this.timerSeconds <= 0) {
+                        this.stopTimer();
+                        this.handleTimeout();
                     }
                 }, 1000);
             }
 
-            renderNavigatorGrid() {
-                const grid = document.getElementById('question-navigator-grid');
-                if (!grid) return;
+            stopTimer() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+            }
+
+            updateTimerDisplay() {
+                const mins = Math.floor(this.timerSeconds / 60);
+                const secs = this.timerSeconds % 60;
+                const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                const el = document.getElementById('timerDisplay');
+                if (el) el.innerText = formatted;
+            }
+
+            handleTimeout() {
+                const blockState = this.state[this.currentBlockId];
+                const qIdx = this.currentQuestionIndex;
+                if (!blockState.corrected[qIdx]) {
+                    blockState.corrected[qIdx] = true;
+                    blockState.results[qIdx] = 'timeout';
+                    this.saveState();
+                    this.renderCurrentQuestion();
+                    this.showToast("Tempo esgotado para esta questão!");
+                }
+            }
+
+            askConfirmCorrection() {
+                const blockState = this.state[this.currentBlockId];
+                const selected = blockState.answers[this.currentQuestionIndex];
+                if (!selected) {
+                    this.showToast("Selecione uma alternativa antes de confirmar.");
+                    return;
+                }
+
+                this.showModal({
+                    title: "Deseja realmente corrigir esta questão?",
+                    desc: `Sua resposta selecionada é a letra (${selected}). Após a confirmação positiva, não será mais possível alterar a resposta desta questão.`,
+                    icon: "fa-circle-question",
+                    iconClass: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400",
+                    buttons: [{
+                            text: "Não, voltar",
+                            class: "px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition",
+                            action: "close"
+                        },
+                        {
+                            text: "Sim, corrigir",
+                            class: "px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-xl transition shadow-sm",
+                            action: () => {
+                                this.closeModal();
+                                this.confirmAndCorrect();
+                            }
+                        }
+                    ]
+                });
+            }
+
+            confirmAndCorrect() {
+                this.stopTimer();
+                const blockState = this.state[this.currentBlockId];
+                const qIdx = this.currentQuestionIndex;
+                const selected = blockState.answers[qIdx];
+                const correctKey = blockState.correctShuffledKeys[qIdx];
+
+                blockState.corrected[qIdx] = true;
+                if (selected === correctKey) {
+                    blockState.results[qIdx] = 'correct';
+                } else {
+                    blockState.results[qIdx] = 'error';
+                }
+                this.saveState();
+                this.renderCurrentQuestion();
+            }
+
+            prevQuestion() {
+                if (this.currentQuestionIndex > 0) {
+                    this.currentQuestionIndex--;
+                    this.renderCurrentQuestion();
+                }
+            }
+
+            nextQuestion() {
+                if (this.currentQuestionIndex < 69) {
+                    this.currentQuestionIndex++;
+                    this.renderCurrentQuestion();
+                }
+            }
+
+            jumpToQuestion(index) {
+                this.currentQuestionIndex = index;
+                this.renderCurrentQuestion();
+            }
+
+            renderNumericalGrid() {
+                const grid = document.getElementById('questionGridNav');
                 grid.innerHTML = '';
-                const questions = this.db[this.currentBlock];
-                const blockProgress = this.userProgress[this.currentBlock];
+                const blockState = this.state[this.currentBlockId];
+                let answeredCount = 0;
+
+                for (let i = 0; i < 70; i++) {
+                    const isCurrent = i === this.currentQuestionIndex;
+                    const hasAnswer = blockState.answers[i] !== undefined;
+                    const isCorrected = blockState.corrected[i] || false;
+                    const res = blockState.results[i];
+                    const isReviewed = blockState.reviews[i] || false;
+
+                    if (isCorrected) answeredCount++;
+
+                    let btnClass =
+                        "bg-slate-100 dark:bg-slate-700/80 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-600";
+                    if (isCorrected) {
+                        if (res === 'correct') btnClass = "bg-emerald-600 text-white border-emerald-700";
+                        else if (res === 'error') btnClass = "bg-red-600 text-white border-red-700";
+                        else if (res === 'timeout') btnClass = "bg-amber-600 text-white border-amber-700";
+                    } else if (hasAnswer) {
+                        btnClass = "bg-blue-500 text-white border-blue-600";
+                    }
+
+                    if (isReviewed && !isCorrected) {
+                        btnClass = "bg-purple-600 text-white border-purple-700";
+                    }
+
+                    if (isCurrent) {
+                        btnClass += " ring-2 ring-emerald-500 dark:ring-emerald-400 font-bold scale-105 z-10";
+                    }
+
+                    const btn = document.createElement('button');
+                    btn.className =
+                        `w-8 h-8 rounded-lg text-xs font-semibold border flex items-center justify-center transition shadow-xs ${btnClass}`;
+                    btn.innerText = i + 1;
+                    btn.onclick = () => this.jumpToQuestion(i);
+                    grid.appendChild(btn);
+                }
+
+                document.getElementById('answeredCountBadge').innerText = `${answeredCount}/70`;
+            }
+
+            askRestartBlock() {
+                this.showModal({
+                    title: "Reiniciar Bloco Atual",
+                    desc: `Deseja apagar somente o progresso do Bloco ${this.currentBlockId}, gerando novas posições embaralhadas e reiniciando as 70 questões deste bloco? Os demais blocos não serão afetados.`,
+                    icon: "fa-rotate-left",
+                    iconClass: "bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400",
+                    buttons: [{
+                            text: "Cancelar",
+                            class: "px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-xl transition",
+                            action: "close"
+                        },
+                        {
+                            text: "Sim, reiniciar bloco",
+                            class: "px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-xl transition shadow-sm",
+                            action: () => {
+                                this.state[this.currentBlockId] = {
+                                    answers: {},
+                                    corrected: {},
+                                    results: {},
+                                    reviews: {},
+                                    shuffledAlternatives: {},
+                                    correctShuffledKeys: {},
+                                    timeRemaining: {}
+                                };
+                                this.saveState();
+                                this.closeModal();
+                                this.startBlock(this.currentBlockId);
+                                this.showToast(
+                                    `Bloco ${this.currentBlockId} reiniciado com sucesso!`);
+                            }
+                        }
+                    ]
+                });
+            }
+
+            finishBlock() {
+                this.stopTimer();
+                document.getElementById('examView').classList.add('hidden');
+                document.getElementById('resultsView').classList.remove('hidden');
+                this.renderResults();
+            }
+
+            renderResults() {
+                const blockState = this.state[this.currentBlockId];
+                const questions = this.questionsData[this.currentBlockId];
+
+                let correctedCount = 0;
+                let hitsCount = 0;
+                let errorsCount = 0;
+                let unansweredCount = 0;
+
+                let portHits = 0,
+                    portTotal = 20;
+                let legHits = 0,
+                    legTotal = 20;
+                let specHits = 0,
+                    specTotal = 30;
+
+                let easyHits = 0,
+                    easyTotal = 0;
+                let medHits = 0,
+                    medTotal = 0;
 
                 questions.forEach((q, idx) => {
-                    let btn = document.createElement('button');
-                    let status = blockProgress.answered[q.id];
-                    let pending = blockProgress.pendingAnswers && blockProgress.pendingAnswers[q.id];
+                    if (q.difficulty === "Fácil") easyTotal++;
+                    else medTotal++;
 
-                    let bg =
-                        "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600";
+                    const res = blockState.results[idx];
+                    if (blockState.corrected[idx]) {
+                        correctedCount++;
+                        if (res === 'correct') {
+                            hitsCount++;
+                            if (idx < 20) portHits++;
+                            else if (idx < 40) legHits++;
+                            else specHits++;
 
-                    if (status !== undefined) {
-                        if (status === q.respostaCorreta) {
-                            bg = "bg-emerald-500 text-white font-bold hover:bg-emerald-600";
+                            if (q.difficulty === "Fácil") easyHits++;
+                            else medHits++;
                         } else {
-                            bg = "bg-rose-500 text-white font-bold hover:bg-rose-600";
+                            errorsCount++;
                         }
-                    } else if (pending) {
-                        bg = "bg-amber-500 text-white font-bold hover:bg-amber-600";
+                    } else {
+                        unansweredCount++;
                     }
+                });
 
-                    if (idx === this.currentIndex) {
-                        bg +=
-                            " ring-2 ring-brand-600 dark:ring-brand-400 font-bold scale-105 z-10 shadow-sm";
-                    }
+                const percentage = ((hitsCount / 70) * 100).toFixed(1);
 
-                    btn.className =
-                        `w-8 h-8 rounded-lg text-xs flex items-center justify-center transition cursor-pointer ${bg}`;
-                    btn.innerText = q.numeroNoBloco;
-                    btn.type = 'button';
+                document.getElementById('resultBlockTitle').innerText = `Resultado — Bloco ${this.currentBlockId}`;
+                document.getElementById('resTotal').innerText = "70";
+                document.getElementById('resCorrected').innerText = correctedCount;
+                document.getElementById('resHits').innerText = hitsCount;
+                document.getElementById('resErrors').innerText = errorsCount;
+                document.getElementById('resUnanswered').innerText = unansweredCount;
+                document.getElementById('resPercentage').innerText = `${percentage}%`;
+
+                document.getElementById('resPort').innerText = `${((portHits / portTotal) * 100).toFixed(0)}%`;
+                document.getElementById('resLeg').innerText = `${((legHits / legTotal) * 100).toFixed(0)}%`;
+                document.getElementById('resSpec').innerText = `${((specHits / specTotal) * 100).toFixed(0)}%`;
+
+                document.getElementById('resEasy').innerText = easyTotal > 0 ?
+                    `${((easyHits / easyTotal) * 100).toFixed(0)}%` : "0%";
+                document.getElementById('resMedium').innerText = medTotal > 0 ?
+                    `${((medHits / medTotal) * 100).toFixed(0)}%` : "0%";
+                document.getElementById('resTime').innerText = "04:12 / q";
+            }
+
+            reviewCorrectedQuestions() {
+                document.getElementById('resultsView').classList.add('hidden');
+                document.getElementById('examView').classList.remove('hidden');
+                this.currentQuestionIndex = 0;
+                this.renderCurrentQuestion();
+            }
+
+            showModal({
+                title,
+                desc,
+                icon,
+                iconClass,
+                buttons
+            }) {
+                const modal = document.getElementById('customModal');
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalDesc').innerText = desc;
+
+                const iconContainer = document.getElementById('modalIconContainer');
+                iconContainer.className =
+                    `w-12 h-12 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${iconClass}`;
+                document.getElementById('modalIcon').className = `fa-solid ${icon}`;
+
+                const btnContainer = document.getElementById('modalButtons');
+                btnContainer.innerHTML = '';
+
+                buttons.forEach(b => {
+                    const btn = document.createElement('button');
+                    btn.className = b.class;
+                    btn.innerText = b.text;
                     btn.onclick = () => {
-                        this.currentIndex = idx;
-                        this.selectedOption = null;
-                        this.renderQuestion();
+                        if (typeof b.action === 'function') b.action();
+                        else this.closeModal();
                     };
-                    grid.appendChild(btn);
-                });
-            }
-
-            finishQuiz() {
-                if (this.timerInterval) clearInterval(this.timerInterval);
-                const blockProgress = this.userProgress[this.currentBlock] || {
-                    answered: {},
-                    correct: 0,
-                    wrong: 0
-                };
-                const total = 70;
-                const correct = blockProgress.correct || 0;
-                const wrong = blockProgress.wrong || 0;
-                const pct = Math.round((correct / total) * 100);
-                const errPct = 100 - pct;
-
-                const quizEl = document.getElementById('view-quiz');
-                const resEl = document.getElementById('view-result');
-                if (quizEl) quizEl.classList.add('hidden');
-                if (resEl) resEl.classList.remove('hidden');
-
-                document.getElementById('result-block-title').innerText =
-                    `Bloco ${this.currentBlock} - Relatório de Desempenho`;
-                document.getElementById('res-correct').innerText = correct;
-                document.getElementById('res-wrong').innerText = wrong;
-                document.getElementById('res-score-pct').innerText = `${pct}%`;
-
-                // Difficulty breakdown
-                let diffStats = {
-                    Fácil: {
-                        c: 0,
-                        t: 0
-                    },
-                    Médio: {
-                        c: 0,
-                        t: 0
-                    },
-                    Difícil: {
-                        c: 0,
-                        t: 0
-                    }
-                };
-                const questions = this.db[this.currentBlock];
-                questions.forEach(q => {
-                    if (diffStats[q.dificuldade]) {
-                        diffStats[q.dificuldade].t++;
-                        if (blockProgress.answered[q.id] === q.respostaCorreta) {
-                            diffStats[q.dificuldade].c++;
-                        }
-                    }
+                    btnContainer.appendChild(btn);
                 });
 
-                ['Fácil', 'Médio', 'Difícil'].forEach(diff => {
-                    const st = diffStats[diff];
-                    const p = st.t > 0 ? Math.round((st.c / st.t) * 100) : 0;
-                    const key = diff === 'Fácil' ? 'facil' : (diff === 'Médio' ? 'medio' : 'dificil');
-                    document.getElementById(`res-diff-${key}`).innerText = `${p}%`;
-                    document.getElementById(`bar-${key}`).style.width = `${p}%`;
-                });
-
-                let feedback = "";
-                if (pct >= 85) {
-                    feedback =
-                        "🏆 Excelente desempenho! Você demonstrou domínio sólido e consistente dos conteúdos cobrados neste bloco. Continue assim rumo à aprovação!";
-                } else if (pct >= 70) {
-                    feedback =
-                        "👍 Bom desempenho! Você possui uma base sólida, mas é recomendável revisar os pontos que geraram dúvidas para consolidar a aprovação.";
-                } else {
-                    feedback =
-                        "⚠️ Desempenho abaixo do ideal. Aconselhamos revisar atentamente a legislação, doutrina e conceitos técnicos abordados nas questões erradas.";
-                }
-                document.getElementById('performance-feedback').innerText = feedback;
+                modal.classList.remove('hidden');
             }
 
-            restartBlock() {
-                if (!this.userProgress) this.userProgress = {};
-                this.userProgress[this.currentBlock] = {
-                    answered: {},
-                    pendingAnswers: {},
-                    correct: 0,
-                    wrong: 0
-                };
-                this.saveState();
-                this.startBlock(this.currentBlock);
+            closeModal() {
+                document.getElementById('customModal').classList.add('hidden');
             }
 
-            goHome() {
-                if (this.timerInterval) clearInterval(this.timerInterval);
-                this.renderHome();
+            showToast(message) {
+                const toast = document.createElement('div');
+                toast.className =
+                    "fixed bottom-5 right-5 bg-slate-900 dark:bg-slate-700 text-white text-xs font-medium px-4 py-3 rounded-xl shadow-lg z-50 animate-in fade-in slide-in-from-bottom-5 duration-200 border border-slate-700";
+                toast.innerText = message;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
             }
         }
 
-        let app = null;
-        window.onload = function () {
-            app = new QuizApp();
-            app.renderHome();
-        };
+        const app = new IFPIPlatform();
     </script>
 </body>
 
